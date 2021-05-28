@@ -66,6 +66,7 @@ class BaseCase(unittest.TestCase):
     """ <Class seleniumbase.BaseCase> """
 
     def __init__(self, *args, **kwargs):
+        #兼容写法，python3直接写成 super().方法名（参数），python2必须写成 super（父类，self）.方法名（参数）
         super(BaseCase, self).__init__(*args, **kwargs)
         self.driver = None
         self.environment = None
@@ -109,6 +110,7 @@ class BaseCase(unittest.TestCase):
 
     def open(self, url):
         """ Navigates the current browser window to the specified page. """
+        #确定浏览器属性
         self.__check_scope()
         if type(url) is str:
             url = url.strip()  # Remove leading and trailing whitespace
@@ -124,13 +126,16 @@ class BaseCase(unittest.TestCase):
             # Convert URLs such as "://google.com" into "https://google.com"
             url = "https" + url
         if self.browser == "safari" and url.startswith("data:"):
+            #escape：除去\转义效果。
             url = re.escape(url)
             url = self.__escape_quotes_if_needed(url)
             self.execute_script("window.location.href='%s';" % url)
         else:
+            self.driver.current_url
             self.driver.get(url)
         if settings.WAIT_FOR_RSC_ON_PAGE_LOADS:
             self.wait_for_ready_state_complete()
+        #demo模式需要高亮
         self.__demo_mode_pause_if_active()
 
     def get(self, url):
