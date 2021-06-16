@@ -1,6 +1,7 @@
 """
 SeleniumBase constants are stored in this file.
 """
+import gc
 
 
 class Environment:

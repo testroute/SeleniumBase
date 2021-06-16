@@ -61,7 +61,6 @@ if sys.version_info[0] < 3:
     reload(sys)  # noqa: F821
     sys.setdefaultencoding("utf8")
 
-
 class BaseCase(unittest.TestCase):
     """ <Class seleniumbase.BaseCase> """
 
